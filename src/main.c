@@ -38,14 +38,10 @@ Sample_t* sample_init(char* str){
 void sample_free(Sample_t* sample){
     if(sample != NULL){
         if(sample->opers != NULL){
-
             free(sample->opers);
-
         }
         if(sample->numbers != NULL){
-
             free(sample->numbers);
-
         }
         free(sample);
         return;
@@ -73,7 +69,7 @@ void sample_solve(Sample_t* sample){
         }
         else if(*temp_opers == '/'){
             if(*(temp_numbers + 1) != 0){
-                sample->answer = *temp_numbers / *(temp_numbers + 1);
+                sample->answer = (float)(*temp_numbers / *(temp_numbers + 1));
                 continue;
             }
         }
@@ -83,17 +79,18 @@ void sample_solve(Sample_t* sample){
 int main() {
     
     for(uint i = 0; i < 10;  i++){
-        char* inp = (char*)malloc(sizeof(char) * 128);
-        Sample_t* smpl = sample_init(inp);
+        char* input = (char*)malloc(sizeof(char) * 128);
+        scanf("%s", input);
+        Sample_t* smpl = sample_init(input);
 
         if(smpl != NULL){
             sample_solve(smpl);
             printf("%i\n", smpl->count_numbers);
             printf("%i\n", smpl->count_opers);
             printf("%f\n", smpl->answer);
-            printf("g2\n");
             sample_free(smpl);
         }
+        free(input);
     }
 
     return 0;

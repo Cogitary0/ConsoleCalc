@@ -27,11 +27,22 @@ void b_parse_opers(char* str, Sample_t* sample){
 
 void b_parse_numbers(char* str, Sample_t* sample){
     int* temp_numbers = sample->numbers;
+    float result = 0;
+    int8_t sign = 1;
+
     for(; *str != '\0'; str++){
         if(*str >= '0' && *str <= '9'){
-            *temp_numbers = *str - '0'; // Преобразование символа в число
+            result = result * 10 + (*str - '0');
+        }
+        else if(*str == '+' || *str == '-' || *str == '*' || *str == '/'){
+            *temp_numbers = result * sign;
             temp_numbers++;
+            result = 0;
+        }
+        else if(*str == '-'){
+            sign = -1;
         }
     }
-    *temp_numbers = '\0';
+    *temp_numbers = result * sign;
+    *(temp_numbers + 1) = '\0';
 }
