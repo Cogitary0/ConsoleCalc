@@ -12,8 +12,9 @@ Sample_t* sample_init(char* str){
     }
     sample->count_opers = b_count_opers(str);
     sample->count_numbers = sample->count_opers + 1;
+    sample->answer = 0.0f;
 
-    sample->numbers = (float*)malloc(sizeof(float) * sample->count_numbers);
+    sample->numbers = (int*)malloc(sizeof(int) * sample->count_numbers);
     if(sample->numbers == NULL){
         free(sample);
         return NULL;
@@ -26,8 +27,10 @@ Sample_t* sample_init(char* str){
         return NULL;
     }
 
-    parse_numbers(str, sample->numbers);
-    parse_opers(str, sample->opers);
+    b_parse_numbers(str, sample);
+    b_parse_opers(str, sample);
+
+    
 
     return sample;
 }
@@ -47,8 +50,17 @@ void sample_free(Sample_t* sample){
 }
 
 
-
 int main() {
-    printf("Hello");
+    Sample_t* smpl = sample_init("2+3");
+
+    if(smpl != NULL){
+        printf("%i\n", smpl->count_numbers);
+        printf("%i\n", smpl->count_opers);
+        printf("g1\n");
+        printf("%c\n", *smpl->opers);
+        printf("g2\n");
+        sample_free(smpl);
+    }
+
     return 0;
 }

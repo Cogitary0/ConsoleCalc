@@ -3,9 +3,10 @@
 typedef signed char int8_t;
 typedef unsigned char uint8_t;
 typedef unsigned int uint;
+typedef enum {false, true} bool;
 
 typedef struct Sample{
-    float* numbers;
+    int* numbers;
     char* opers;
     float answer;
     uint count_opers;

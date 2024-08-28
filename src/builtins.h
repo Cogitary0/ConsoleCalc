@@ -2,6 +2,7 @@
 
 #include "typedefs.h"
 
+
 uint b_count_opers(const char* str){
     uint count = 0;
     for(; *str != '\0'; str++){
@@ -20,5 +21,19 @@ void b_parse_opers(char* str, Sample_t* sample){
             sample->opers++;
         }
     }
-    *(sample->opers + 1) = '\0';
+    *sample->opers = '\0';
+}
+
+
+void b_parse_numbers(char* str, Sample_t* sample){
+    int number = 0;
+
+    for(; *str != '\0'; str++){
+        if(*str > '0' || *str < '9'){
+            *sample->numbers = *str;
+            sample->numbers++; 
+        }
+    }
+    *sample->numbers = '\0';
+    return;
 }
