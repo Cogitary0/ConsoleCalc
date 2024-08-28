@@ -15,25 +15,23 @@ uint b_count_opers(const char* str){
 
 
 void b_parse_opers(char* str, Sample_t* sample){
-    for(; *str != NULL_CHAR; str++){
+    char* temp_opers = sample->opers;
+    for(; *str != '\0'; str++){
         if(*str == '+' || *str == '-' || *str == '*' || *str == '/'){
-            *sample->opers = *str;
-            sample->opers++;
+            *temp_opers = *str;
+            temp_opers++;
         }
     }
-    *sample->opers = '\0';
+    *temp_opers = '\0';
 }
 
-
 void b_parse_numbers(char* str, Sample_t* sample){
-    int number = 0;
-
+    int* temp_numbers = sample->numbers;
     for(; *str != '\0'; str++){
-        if(*str > '0' || *str < '9'){
-            *sample->numbers = *str;
-            sample->numbers++; 
+        if(*str >= '0' && *str <= '9'){
+            *temp_numbers = *str - '0'; // Преобразование символа в число
+            temp_numbers++;
         }
     }
-    *sample->numbers = '\0';
-    return;
+    *temp_numbers = '\0';
 }

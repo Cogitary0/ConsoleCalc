@@ -5,6 +5,8 @@
 #include "constants.h"
 #include "builtins.h"
 
+#define DEBUG print("DEBUG LINE >> %i\n", __LINE__);
+
 Sample_t* sample_init(char* str){
     Sample_t* sample = (Sample_t*)malloc(sizeof(Sample_t));
     if(sample == NULL){
@@ -30,18 +32,20 @@ Sample_t* sample_init(char* str){
     b_parse_numbers(str, sample);
     b_parse_opers(str, sample);
 
-    
-
     return sample;
 }
 
 void sample_free(Sample_t* sample){
     if(sample != NULL){
         if(sample->opers != NULL){
+
             free(sample->opers);
+
         }
         if(sample->numbers != NULL){
+
             free(sample->numbers);
+
         }
         free(sample);
         return;
@@ -50,14 +54,40 @@ void sample_free(Sample_t* sample){
 }
 
 
+void sample_solve(Sample_t* sample){
+    const int* temp_numbers = sample->numbers;
+    const char* temp_opers = sample->opers;
+
+    for(; *temp_opers != '\0'; temp_opers++){
+        if(*temp_opers == '+'){
+            sample->answer = *temp_numbers + *(temp_numbers + 1);
+            continue;
+        }
+        else if(*temp_opers == '-'){
+            sample->answer = *temp_numbers - *(temp_numbers + 1);
+            continue;
+        }
+        else if(*temp_opers == '*'){
+            sample->answer = *temp_numbers  * *(temp_numbers + 1);
+            continue;
+        }
+        else if(*temp_opers == '/'){
+            if(*(temp_numbers + 1) != 0){
+                sample->answer = *temp_numbers / *(temp_numbers + 1);
+                continue;
+            }
+        }
+    }
+}
+
 int main() {
-    Sample_t* smpl = sample_init("2+3");
+    Sample_t* smpl = sample_init("2/0");
 
     if(smpl != NULL){
+        sample_solve(smpl);
         printf("%i\n", smpl->count_numbers);
         printf("%i\n", smpl->count_opers);
-        printf("g1\n");
-        printf("%c\n", *smpl->opers);
+        printf("%f\n", smpl->answer);
         printf("g2\n");
         sample_free(smpl);
     }
