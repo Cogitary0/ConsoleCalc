@@ -81,15 +81,19 @@ void sample_solve(Sample_t* sample){
 }
 
 int main() {
-    Sample_t* smpl = sample_init("2/0");
+    
+    for(uint i = 0; i < 10;  i++){
+        char* inp = (char*)malloc(sizeof(char) * 128);
+        Sample_t* smpl = sample_init(inp);
 
-    if(smpl != NULL){
-        sample_solve(smpl);
-        printf("%i\n", smpl->count_numbers);
-        printf("%i\n", smpl->count_opers);
-        printf("%f\n", smpl->answer);
-        printf("g2\n");
-        sample_free(smpl);
+        if(smpl != NULL){
+            sample_solve(smpl);
+            printf("%i\n", smpl->count_numbers);
+            printf("%i\n", smpl->count_opers);
+            printf("%f\n", smpl->answer);
+            printf("g2\n");
+            sample_free(smpl);
+        }
     }
 
     return 0;
