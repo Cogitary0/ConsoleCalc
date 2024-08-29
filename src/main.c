@@ -67,9 +67,13 @@ void sample_solve(Sample_t* sample){
             sample->answer = *temp_numbers  * *(temp_numbers + 1);
             continue;
         }
+        else if(*temp_opers == '^'){
+            sample->answer = (float)b_pow32(*temp_numbers, *(temp_numbers + 1));
+            continue;
+        }
         else if(*temp_opers == '/'){
             if(*(temp_numbers + 1) != 0){
-                sample->answer = (float)(*temp_numbers / *(temp_numbers + 1));
+                sample->answer = (float)(*temp_numbers) / (float)(*(temp_numbers + 1));
                 continue;
             }
         }
@@ -80,14 +84,25 @@ int main() {
     
     for(uint i = 0; i < 10;  i++){
         char* input = (char*)malloc(sizeof(char) * 128);
+
+        printf("\n> ");
         scanf("%s", input);
+
+        if(*input == 'c'){
+            printf("!> Programm off\n");
+            free(input);
+            return 0;
+        }
+
         Sample_t* smpl = sample_init(input);
 
         if(smpl != NULL){
             sample_solve(smpl);
-            printf("%i\n", smpl->count_numbers);
-            printf("%i\n", smpl->count_opers);
-            printf("%f\n", smpl->answer);
+            printf("C_num:\t%i\n", smpl->count_numbers);
+            printf("C_op:\t%i\n", smpl->count_opers);
+            printf("A:\t%f\n", smpl->answer);
+            b_round(smpl, 3);
+            printf("A_r:\t%f\n", smpl->answer);
             sample_free(smpl);
         }
         free(input);
