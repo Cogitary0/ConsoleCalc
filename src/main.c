@@ -2,7 +2,6 @@
 #include <stdio.h>
 
 #include "typedefs.h"
-#include "constants.h"
 #include "builtins.h"
 
 #define DEBUG print("DEBUG LINE >> %i\n", __LINE__);
@@ -84,6 +83,10 @@ int main() {
     
     for(uint i = 0; i < 10;  i++){
         char* input = (char*)malloc(sizeof(char) * 128);
+
+        if(input == NULL){
+            continue;
+        }
 
         printf("\n> ");
         scanf("%s", input);
