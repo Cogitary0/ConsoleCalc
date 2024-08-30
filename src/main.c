@@ -52,36 +52,41 @@ void sample_free(Sample_t* sample){
 void sample_solve(Sample_t* sample){
     const int* temp_numbers = sample->numbers;
     const char* temp_opers = sample->opers;
+    int result = temp_numbers[0];
 
-    for(; *temp_opers != '\0'; temp_opers++){
+    for(uint i = 0; i < sample->count_opers; ++i){
+
         if(*temp_opers == '+'){
-            sample->answer = *temp_numbers + *(temp_numbers + 1);
-            continue;
+            result += temp_numbers[i + 1];
         }
-        else if(*temp_opers == '-'){
-            sample->answer = *temp_numbers - *(temp_numbers + 1);
-            continue;
+        else if(*temp_opers == '-'){    
+            result -= temp_numbers[i + 1];
         }
         else if(*temp_opers == '*'){
-            sample->answer = *temp_numbers  * *(temp_numbers + 1);
-            continue;
+            result *= temp_numbers[i + 1];
         }
         else if(*temp_opers == '^'){
-            sample->answer = (float)b_pow32(*temp_numbers, *(temp_numbers + 1));
-            continue;
+            result = (float)b_pow32(result, temp_numbers[i + 1]);
         }
         else if(*temp_opers == '/'){
-            if(*(temp_numbers + 1) != 0){
-                sample->answer = (float)(*temp_numbers) / (float)(*(temp_numbers + 1));
-                continue;
+            if(temp_numbers[i + 1] != 0){
+                result /=  temp_numbers[i + 1];
+
             }
         }
+
     }
+    sample->answer = result;
 }
 
-int main() {
+
+void sample_println(Sample_t* sample){
     
-    for(uint i = 0; i < 10;  i++){
+}
+
+int main(int argc, char** argv) {
+    
+    for(;;){
         char* input = (char*)malloc(sizeof(char) * 128);
 
         if(input == NULL){
@@ -101,11 +106,11 @@ int main() {
 
         if(smpl != NULL){
             sample_solve(smpl);
-            printf("C_num:\t%i\n", smpl->count_numbers);
-            printf("C_op:\t%i\n", smpl->count_opers);
-            printf("A:\t%f\n", smpl->answer);
-            b_round(smpl, 3);
-            printf("A_r:\t%f\n", smpl->answer);
+            // printf("C_num:\t%i\n", smpl->count_numbers);
+            // printf("C_op:\t%i\n", smpl->count_opers);
+            printf("= %f\n", smpl->answer);
+            // b_round(smpl, 3);
+            // printf("A_r:\t%f\n", smpl->answer);
             sample_free(smpl);
         }
         free(input);
