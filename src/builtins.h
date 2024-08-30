@@ -14,37 +14,6 @@ char* b_strchr(const char* str, int c){
     return NULL;
 }
 
-char* b_strtok(char* str, const char* delim){
-    static char* next_token = NULL;
-    char* token;
-
-    if(str != NULL){
-        next_token = str;
-    }
-
-    if(next_token == NULL){
-        return NULL;
-    }
-
-    for(;*next_token != NULL_CHAR && b_strchr(delim,  *next_token) != NULL; next_token++);
-
-    if(*next_token == NULL_CHAR){
-        return NULL;
-    }
-
-    token = next_token;
-
-    for(;*next_token != NULL_CHAR && b_strchr(delim, *next_token) != NULL; next_token++);
-
-    if(*next_token != NULL_CHAR){
-        *next_token = NULL_CHAR;
-        next_token++;
-    }
-
-    return token;
-    
-}
-
 uint b_count_opers(const char* str){
     uint count = 0;
     for(; *str != NULL_CHAR; str++){
