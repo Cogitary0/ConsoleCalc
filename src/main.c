@@ -13,7 +13,7 @@ Sample_t* sample_init(char* str){
     }
     sample->count_opers = b_count_opers(str);
     sample->count_numbers = sample->count_opers + 1;
-    sample->answer = 0.0f;
+    sample->answer = 0;
 
     sample->numbers = (int*)malloc(sizeof(int) * sample->count_numbers);
     if(sample->numbers == NULL){
@@ -52,7 +52,7 @@ void sample_free(Sample_t* sample){
 void sample_solve(Sample_t* sample){
     const int* temp_numbers = sample->numbers;
     const char* temp_opers = sample->opers;
-    int result = temp_numbers[0];
+    float result = temp_numbers[0];
 
     for(uint i = 0; i < sample->count_opers; ++i){
 
@@ -71,12 +71,11 @@ void sample_solve(Sample_t* sample){
         else if(*temp_opers == '/'){
             if(temp_numbers[i + 1] != 0){
                 result /=  temp_numbers[i + 1];
-
             }
         }
 
     }
-    sample->answer = result;
+    sample->answer = (float)result;
 }
 
 
